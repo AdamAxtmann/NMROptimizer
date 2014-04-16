@@ -1,0 +1,1 @@
+NMR Optimizer written in AMPL for use with MOSEK solver on NEOS
