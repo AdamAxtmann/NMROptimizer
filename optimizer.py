@@ -276,67 +276,69 @@ minimize amount:
 solve;
 #}	
 
-  printf "%7s: (", "Offset";
-  for {offset in -25..25} {
-    printf "%7.2f, ",offset;
-    }
-   printf ")\n";
+#   printf "%7s: (", "Offset";
+#   for {offset in -25..25} {
+#     printf "%7.2f, ",offset;
+#     }
+#    printf ")\n";
 
-for {angle in ANGLES} {
-  printf "%7.2f: (", angle;
-  for {offset in -25..25} {
-    printf "%7.2f, ",rad[angle,offset];
-    }
-   printf ")\n";
-}
+# for {angle in ANGLES} {
+#   printf "%7.2f: (", angle;
+#   for {offset in -25..25} {
+#     printf "%7.2f, ",rad[angle,offset];
+#     }
+#    printf ")\n";
+# }
 
-printf "Dose: (";
+# printf "Dose: (";
 
-for {i in {-53..53}}{
-  printf "(";
-  for {j in {-75..75}}{
-      printf "%7.2f, ",dose[i,j];
-  }
-  printf "),\n";
-}
+# for {i in {-53..53}}{
+#   printf "(";
+#   for {j in {-75..75}}{
+#       printf "%7.2f, ",dose[i,j];
+#   }
+#   printf "),\n";
+# }
 
-printf ")\n";
+# printf ")\n";
 
 
-var x{-25..24};
-let {i in -25..24} x[i] := 100;
-display x;
-
-solve;
+var RHS{-25..24};
+let {i in -25..24} RHS[i] := 100;
 	
 for {c in {-25..24}} {
 	if abs(rad[10,c] - rad[10,c+1]) <= 2 then {
-		 let x[c] := 0;
+		 let RHS[c] := 0;
 	}
 }
-
 #constUpper constrains that beamlet i - i+1 should be less than x[i]
 #
-subject to constUpper {i in -25..24}: rad[10,i] - rad[10,i+1] <= x[i];
-subject to constLower {i in -25..24}: rad[10,i+1] - rad[10,i] <= x[i];
+subject to constUpper {i in -25..24}: rad[10,i] - rad[10,i+1] <= RHS[i];
+subject to constLower {i in -25..24}: rad[10,i+1] - rad[10,i] <= RHS[i];
 
-display x;
+display RHS;
 solve;
-	
 
 #10, 50, 90, 130, 170, 200, 340
-printf "%7s: (", "X-values";
-for {i in -25..24} {
-	printf "%7.2f, ",x[i];
+
+
+
+printf "%7s: (", "Offset";
+for {offset in -25..25} {
+	printf "%7.2f, ",offset;
 }
 printf ")\n";
 
+printf "%7s: (", "RHS - ";
+for {i in -25..24} {
+	printf "%7.2f, ",RHS[i];
+}
+printf ")\n";	
 
-  printf "%7s: (", "Offset";
-  for {offset in -25..25} {
-    printf "%7.2f, ",offset;
-    }
-   printf ")\n";
+for {i in -25..24} {
+	printf "-----------";
+}
+printf "\n";
 
 for {angle in ANGLES} {
   printf "%7.2f: (", angle;
@@ -345,6 +347,8 @@ for {angle in ANGLES} {
     }
    printf ")\n";
 }
+
+printf "\n \n";
 
 printf "Dose: (";
 
