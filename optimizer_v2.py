@@ -321,14 +321,15 @@ solve;
 #10, 50, 90, 130, 170, 200, 340
 
 
-
+#print out offset labels
 printf "%7s: (", "Offset";
 for {offset in -25..25} {
 	printf "%7.2f, ",offset;
 }
 printf ")\n";
 
-printf "%7s: (", "RHS - ";
+#print out RHS values
+printf "%7s: (", "RHS";
 for {i in -25..24} {
 	printf "%7.2f, ",RHS[i];
 }
@@ -339,6 +340,7 @@ for {i in -25..24} {
 }
 printf "\n";
 
+#print out beamlet values
 for {angle in ANGLES} {
   printf "%7.2f: (", angle;
   for {offset in -25..25} {
@@ -349,8 +351,8 @@ for {angle in ANGLES} {
 
 printf "\n \n";
 
+#print out Doses for all voxels
 printf "Dose: (";
-
 for {i in {-53..53}}{
   printf "(";
   for {j in {-75..75}}{

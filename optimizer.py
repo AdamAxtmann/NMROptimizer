@@ -306,13 +306,13 @@ solve;
 var RHS{-25..24};
 let {i in -25..24} RHS[i] := 100;
 	
-for {c in {-25..24}} {
-	if abs(rad[10,c] - rad[10,c+1]) <= 2 then {
-		 let RHS[c] := 0;
+for {i in {-25..24}} {
+	if abs(rad[10,i] - rad[10,i+1]) <= 2 then {
+		 let RHS[i] := 0;
 	}
 }
-#constUpper constrains that beamlet i - i+1 should be less than x[i]
-#
+
+#difference between neighbouring beamlets should be <= RHS[beamlet]
 subject to constUpper {i in -25..24}: rad[10,i] - rad[10,i+1] <= RHS[i];
 subject to constLower {i in -25..24}: rad[10,i+1] - rad[10,i] <= RHS[i];
 
