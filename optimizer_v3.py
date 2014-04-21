@@ -279,25 +279,25 @@ solve;
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
-var difference := 100;
+var difference := 100; 
 var tmp_offset := -25;
-set magic_set;
-let magic_set := {};
+set constraint_set;
+let constraint_set := {};
 var counter := 4;
 
 display difference;
 display tmp_offset;
-display magic_set;
+display constraint_set;
 
 #repeat {
-	subject to constMagic {i in magic_set}: rad[10,i] - rad[10,i+1] = 0;
+subject to dynamic_constraint {i in constraint_set}: rad[10,i] - rad[10,i+1] = 0;
 
 
 for {derp in {1..40}} {
-	display {-25..24} diff magic_set;
-	let difference := 100;
+	display {-25..24} diff constraint_set;
+	let difference := 100; #reset difference to be arbitrarily large for iteration
 
-	for {i in {-25..24} diff magic_set} {
+	for {i in {-25..24} diff constraint_set} {
 
 		if abs(rad[10,i] - rad[10,i+1]) <= 3 then {
 			if abs(rad[10,i] - rad[10,i+1]) < difference then {
@@ -306,16 +306,17 @@ for {derp in {1..40}} {
 			}
 		}
 	}
-	let magic_set := magic_set union {tmp_offset};
+	let constraint_set := constraint_set union {tmp_offset};
 	
-	display difference;
-	display tmp_offset;
-	display magic_set;
-	printf "---------------------------------\n";
+	#display difference;
+	#display tmp_offset;
+	#display constraint_set;
+	#printf "---------------------------------\n";
 	let counter := counter - 1;
 	solve;
 }
 #} until counter = 0;
+display constraint_set;
 
 
 #--------------------------------------------------------------------------
@@ -329,13 +330,6 @@ for {offset in -25..25} {
 	printf "%7.2f, ",offset;
 }
 printf ")\n";
-
-#print out RHS values
-# printf "%7s: (", "RHS";
-# for {i in -25..24} {
-# 	printf "%7.2f, ",RHS[i];
-# }
-# printf ")\n";	
 
 for {i in -25..24} {
 	printf "-----------";
