@@ -271,36 +271,9 @@ subject to const_5:(sum {(i,j) in {(19,-4),(19,-3),(19,-2),(19,-1),(19,0),(20,-7
 
 minimize amount:
 	( sum {angle in ANGLES, off in {-max_odm+1..max_odm}} t2[angle,off]) + ( sum {angle in ANGLES} (rad[angle,-max_odm] + rad[angle,max_odm])) ;
-
-#repeat{
 solve;
-#}	
 
-#   printf "%7s: (", "Offset";
-#   for {offset in -25..25} {
-#     printf "%7.2f, ",offset;
-#     }
-#    printf ")\n";
 
-# for {angle in ANGLES} {
-#   printf "%7.2f: (", angle;
-#   for {offset in -25..25} {
-#     printf "%7.2f, ",rad[angle,offset];
-#     }
-#    printf ")\n";
-# }
-
-# printf "Dose: (";
-
-# for {i in {-53..53}}{
-#   printf "(";
-#   for {j in {-75..75}}{
-#       printf "%7.2f, ",dose[i,j];
-#   }
-#   printf "),\n";
-# }
-
-# printf ")\n";
 
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
@@ -349,25 +322,6 @@ for {derp in {1..40}} {
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
-
-
-# param RHS{-25..24};
-# let {i in -25..24} RHS[i] := 100;
-	
-# for {c in {-25..24}} {
-# 	if abs(rad[10,c] - rad[10,c+1]) <= 2 then {
-# 		 let RHS[c] := 0;
-# 	}
-# }
-# #constUpper constrains that beamlet i - i+1 should be less than x[i]
-# #
-# subject to constUpper {i in -25..24}: rad[10,i] - rad[10,i+1] <= RHS[i];
-
-# display RHS;
-# solve;
-
-#10, 50, 90, 130, 170, 200, 340
-
 
 #print out offset labels
 printf "%7s: (", "Offset";
